@@ -25,7 +25,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('customers.create');
     }
 
     /**
@@ -36,7 +36,25 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $avatar_path = '';
+
+        if ($request->hasFile('image')) {
+            $avatar_path = $request->file('avatar')->store('customers');
+        }
+
+        $customer = Customer::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'avatar' => $avatar_path,
+            'user_id' => $request->user()->id,
+        ]);
+        if (!$customer) {
+            return redirect()->back()->with('error', 'Sorry, there is a problem while creating customer.');
+        }
+        return redirect()->route('customers.index')->with('success', 'Success, your customer has been created');
     }
 
     /**
