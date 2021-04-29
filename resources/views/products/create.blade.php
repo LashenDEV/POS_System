@@ -66,6 +66,17 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="text" name="quantity" class="form-control @error('quantity') is-invalid @enderror"
+                        id="quantity" placeholder="quantity" value="{{ old('quantity', 1) }}">
+                    @error('quantity')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+
+                <div class="form-group">
                     <label for="status">Status</label>
                     <select name="status" class="form-control @error('status') is-invalid @enderror" id="status">
                         <option value="1" {{ old('status') === 1 ? 'selected' : '' }}>Active</option>

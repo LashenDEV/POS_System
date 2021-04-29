@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
@@ -24,4 +25,5 @@ Auth::routes();
 Route::prefix('admin')->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('products', ProductController::class);
+    Route::resource('customers', CustomerController::class);
 });

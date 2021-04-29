@@ -51,6 +51,7 @@ class ProductController extends Controller
             'image' => $image_path,
             'barcode' => $request->barcode,
             'price' => $request->price,
+            'quantity' => $request->quantity,
             'status' => $request->status
         ]);
         if (!$product) {
@@ -94,6 +95,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->barcode = $request->barcode;
         $product->price = $request->price;
+        $product->quantity = $request->quantity;
         $product->status = $request->status;
 
         if ($request->hasFile('image')) {
