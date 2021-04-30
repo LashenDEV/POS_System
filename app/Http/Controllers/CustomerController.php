@@ -38,7 +38,7 @@ class CustomerController extends Controller
     {
         $avatar_path = '';
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('avatar')) {
             $avatar_path = $request->file('avatar')->store('customers');
         }
 
