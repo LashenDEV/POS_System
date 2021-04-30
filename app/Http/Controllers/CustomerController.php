@@ -94,7 +94,7 @@ class CustomerController extends Controller
         $customer->email = $request->email;
         $customer->phone = $request->phone;
         $customer->address = $request->address;
-    
+
         if ($request->hasFile('avatar')) {
             //Delete old avatar
             if ($customer->avatar) {
@@ -121,6 +121,14 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        if ($customer->avatar) {
+            Storage::delete($customer->avatar);
+
+            $customer->delete();
+
+            return response()->json([
+                'success' => true
+            ]);
+        }
     }
 }
