@@ -99,6 +99,7 @@ class ProductController extends Controller
         $product->status = $request->status;
 
         if ($request->hasFile('image')) {
+            //Delete old image
             if ($product->image) {
                 Storage::delete($product->image);
             }
