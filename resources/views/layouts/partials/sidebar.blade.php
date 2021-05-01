@@ -55,6 +55,14 @@
                      </a>
                  </li>
                  <li class="nav-item has-treeview ">
+                     <a href="{{ route('cart.index') }}" class="nav-link {{ activeSegment('cart') }}">
+                         <i class="nav-icon fas fa-cart-plus"></i>
+                         <p>
+                             Open POS
+                         </p>
+                     </a>
+                 </li>
+                 <li class="nav-item has-treeview ">
                      <a href="{{ route('customers.index') }}" class="nav-link {{ activeSegment('customers') }}">
                          <i class="nav-icon fas fa-users"></i>
                          <p>
@@ -63,13 +71,13 @@
                      </a>
                  </li>
                  <li class="nav-item has-treeview ">
-                    <a href="{{ route('settings.index') }}" class="nav-link {{ activeSegment('customers') }}">
-                        <i class="nav-icon fas fa-cogs"></i>
-                        <p>
-                            Settings
-                        </p>
-                    </a>
-                </li>
+                     <a href="{{ route('settings.index') }}" class="nav-link {{ activeSegment('settings') }}">
+                         <i class="nav-icon fas fa-cogs"></i>
+                         <p>
+                             Settings
+                         </p>
+                     </a>
+                 </li>
                  <li class="nav-item">
                      <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit()">
                          <i class="nav-icon fas fa-sign-out-alt"></i>
