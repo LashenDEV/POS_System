@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
+import Swal from 'sweetalert2';
+import { sum } from 'lodash';
 
 class Cart extends Component {
 
@@ -8,14 +10,22 @@ class Cart extends Component {
         super(props)
         this.state = {
             cart: [],
+            barcode: '',
         };
 
         this.loadCart = this.loadCart.bind(this);
+        this.handleOnChangeBarcode = this.handleOnChangeBarcode.bind(this);
+        this.handleScanBarcode = this.handleScanBarcode.bind(this);
     }
 
     componentDidMount() {
         //load user cart
         this.loadCart();
+    }
+
+    handleOnChangeBarcode(event) {
+        const barcode = event.target.value;
+        this.setState({ barcode })
     }
 
     loadCart() {
@@ -25,14 +35,48 @@ class Cart extends Component {
         })
     }
 
+    handleScanBarcode(event) {
+        event.preventDefault();
+        const { barcode } = this.state;
+        if (!!barcode) {
+            axios.post('/admin/cart', { barcode }).then(res => {
+                this.loadCart();
+                this.setState({ barcode: '' })
+            }).catch(err => {
+                Swal.fire(
+                    'Error!',
+                    err.response.data.message,
+                    'error'
+                )
+            })
+        }
+    }
+
+    handleChangeQty(event) {
+        //
+    }
+
+    getTotal(cart) {
+        const total = cart.map(c => c.pivot.quantity * c.price);
+        return sum(total).toFixed(2);
+    }
+
+
     render() {
-        const { cart } = this.state;
+        const { cart, barcode } = this.state;
         return (
             <div className="row">
                 <div className="col-md-6 col-lg-4">
                     <div className="row mb-2">
                         <div className="col">
-                            <input type="text" className="form-control" placeholder="Scan Barcode ..." />
+                            <form onSubmit={this.handleScanBarcode}>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Scan Barcode ..."
+                                    value={barcode}
+                                    onChange={this.handleOnChangeBarcode} />
+                            </form>
                         </div>
                         <div className="col">
                             <select name="" id="" className="form-control">
@@ -52,9 +96,14 @@ class Cart extends Component {
                                 </thead>
                                 <tbody>
                                     {cart.map(c => (
-                                        <tr>
+                                        <tr key={c.id}>
                                             <td>{c.name}</td>
-                                            <td><input type="text" className="form-control form-control-sm qty" value={c.pivot.quantity} />
+                                            <td><input
+                                                type="text"
+                                                className="form-control form-control-sm qty"
+                                                value={c.pivot.quantity}
+                                                onChange={this.handleChangeQty}
+                                            />
                                                 <button className="btn btn-danger btn-sm">
                                                     <i className="fas fa-trash"></i>
                                                 </button>
@@ -68,7 +117,7 @@ class Cart extends Component {
                     </div>
                     <div className="row">
                         <div className="col">Total:</div>
-                        <div className="col text-right">$ 5.00</div>
+                        <div className="col text-right">Rs {this.getTotal(cart)}</div>
                     </div>
                     <div className="row">
                         <div className="col">

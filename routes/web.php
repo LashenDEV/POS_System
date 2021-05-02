@@ -30,4 +30,5 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('customers', CustomerController::class);
 
     Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
 });
