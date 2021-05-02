@@ -1970,6 +1970,7 @@ var Cart = /*#__PURE__*/function (_Component) {
     _this.handleOnChangeBarcode = _this.handleOnChangeBarcode.bind(_assertThisInitialized(_this));
     _this.handleScanBarcode = _this.handleScanBarcode.bind(_assertThisInitialized(_this));
     _this.handleChangeQty = _this.handleChangeQty.bind(_assertThisInitialized(_this));
+    _this.handleEmptyCart = _this.handleEmptyCart.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2051,9 +2052,40 @@ var Cart = /*#__PURE__*/function (_Component) {
       return (0,lodash__WEBPACK_IMPORTED_MODULE_4__.sum)(total).toFixed(2);
     }
   }, {
+    key: "handleClickDelete",
+    value: function handleClickDelete(product_id) {
+      var _this4 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/admin/cart/delete', {
+        product_id: product_id,
+        _method: "DELETE"
+      }).then(function (res) {
+        var cart = _this4.state.cart.filter(function (c) {
+          return c.id !== product_id;
+        });
+
+        _this4.setState({
+          cart: cart
+        });
+      });
+    }
+  }, {
+    key: "handleEmptyCart",
+    value: function handleEmptyCart() {
+      var _this5 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/admin/cart/empty', {
+        _method: "DELETE"
+      }).then(function (res) {
+        _this5.setState({
+          cart: []
+        });
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this6 = this;
 
       var _this$state = this.state,
           cart = _this$state.cart,
@@ -2115,10 +2147,13 @@ var Cart = /*#__PURE__*/function (_Component) {
                           className: "form-control form-control-sm qty",
                           value: c.pivot.quantity,
                           onChange: function onChange(event) {
-                            return _this4.handleChangeQty(c.id, event.target.value);
+                            return _this6.handleChangeQty(c.id, event.target.value);
                           }
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
                           className: "btn btn-danger btn-sm",
+                          onClick: function onClick() {
+                            return _this6.handleClickDelete(c.id);
+                          },
                           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
                             className: "fas fa-trash"
                           })
@@ -2148,6 +2183,7 @@ var Cart = /*#__PURE__*/function (_Component) {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
                 type: "button",
                 className: "btn btn-danger btn-block",
+                onClick: this.handleEmptyCart,
                 children: "Cancel"
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {

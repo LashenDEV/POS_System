@@ -31,5 +31,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
     Route::post('/cart', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
-    Route::post('/cart/change-qty', [App\Http\Controllers\CartController::class, 'changeQty']);  
+    Route::post('/cart/change-qty', [App\Http\Controllers\CartController::class, 'changeQty']);
+    Route::delete('/cart/delete', [App\Http\Controllers\CartController::class, 'delete']);
+    Route::delete('/cart/empty', [App\Http\Controllers\CartController::class, 'empty']);
 });
