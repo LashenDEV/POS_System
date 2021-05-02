@@ -31,4 +31,5 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
     Route::post('/cart', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
+    Route::post('/cart/change-qty', [App\Http\Controllers\CartController::class, 'changeQty']);  
 });

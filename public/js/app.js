@@ -1969,6 +1969,7 @@ var Cart = /*#__PURE__*/function (_Component) {
     _this.loadCart = _this.loadCart.bind(_assertThisInitialized(_this));
     _this.handleOnChangeBarcode = _this.handleOnChangeBarcode.bind(_assertThisInitialized(_this));
     _this.handleScanBarcode = _this.handleScanBarcode.bind(_assertThisInitialized(_this));
+    _this.handleChangeQty = _this.handleChangeQty.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2023,7 +2024,23 @@ var Cart = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleChangeQty",
-    value: function handleChangeQty(event) {//
+    value: function handleChangeQty(product_id, qty) {
+      var cart = this.state.cart.map(function (c) {
+        if (c.id === product_id) {
+          c.pivot.quantity = qty;
+        }
+
+        return c;
+      });
+      this.setState({
+        cart: cart
+      });
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/admin/cart/change-qty', {
+        product_id: product_id,
+        quantity: qty
+      }).then(function (res) {})["catch"](function (err) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire('Error!', err.response.data.message, 'error');
+      });
     }
   }, {
     key: "getTotal",
@@ -2097,7 +2114,9 @@ var Cart = /*#__PURE__*/function (_Component) {
                           type: "text",
                           className: "form-control form-control-sm qty",
                           value: c.pivot.quantity,
-                          onChange: _this4.handleChangeQty
+                          onChange: function onChange(event) {
+                            return _this4.handleChangeQty(c.id, event.target.value);
+                          }
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
                           className: "btn btn-danger btn-sm",
                           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
