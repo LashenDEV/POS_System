@@ -27,6 +27,7 @@ class Cart extends Component {
         this.handleChangeSearch = this.handleChangeSearch.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.setCustomerId = this.setCustomerId.bind(this);
+        this.handleClickSubmit = this.handleClickSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -147,6 +148,12 @@ class Cart extends Component {
         this.setState({ customer_id: event.target.value })
     }
 
+    handleClickSubmit() {
+        axios.post('/admin/orders', { customer_id: this.state.customer_id }).then(res => {
+            this.loadCart();
+        })
+    }
+
     render() {
         const { cart, products, customers, barcode } = this.state;
         console.log(this.state.customer_id);
@@ -221,6 +228,7 @@ class Cart extends Component {
                             <button type="button"
                                 className="btn btn-primary btn-block"
                                 disabled={!cart.length}
+                                onClick={this.handleClickSubmit}
                             >Submit</button>
                         </div>
                     </div>

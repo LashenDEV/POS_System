@@ -1979,6 +1979,7 @@ var Cart = /*#__PURE__*/function (_Component) {
     _this.handleChangeSearch = _this.handleChangeSearch.bind(_assertThisInitialized(_this));
     _this.handleSearch = _this.handleSearch.bind(_assertThisInitialized(_this));
     _this.setCustomerId = _this.setCustomerId.bind(_assertThisInitialized(_this));
+    _this.handleClickSubmit = _this.handleClickSubmit.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2160,9 +2161,20 @@ var Cart = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "handleClickSubmit",
+    value: function handleClickSubmit() {
+      var _this9 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/admin/orders', {
+        customer_id: this.state.customer_id
+      }).then(function (res) {
+        _this9.loadCart();
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this9 = this;
+      var _this10 = this;
 
       var _this$state = this.state,
           cart = _this$state.cart,
@@ -2231,12 +2243,12 @@ var Cart = /*#__PURE__*/function (_Component) {
                           className: "form-control form-control-sm qty",
                           value: c.pivot.quantity,
                           onChange: function onChange(event) {
-                            return _this9.handleChangeQty(c.id, event.target.value);
+                            return _this10.handleChangeQty(c.id, event.target.value);
                           }
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
                           className: "btn btn-danger btn-sm",
                           onClick: function onClick() {
-                            return _this9.handleClickDelete(c.id);
+                            return _this10.handleClickDelete(c.id);
                           },
                           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
                             className: "fas fa-trash"
@@ -2277,6 +2289,7 @@ var Cart = /*#__PURE__*/function (_Component) {
                 type: "button",
                 className: "btn btn-primary btn-block",
                 disabled: !cart.length,
+                onClick: this.handleClickSubmit,
                 children: "Submit"
               })
             })]
@@ -2297,7 +2310,7 @@ var Cart = /*#__PURE__*/function (_Component) {
             children: products.map(function (p) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
                 onClick: function onClick() {
-                  return _this9.addProductToCart(p.barcode);
+                  return _this10.addProductToCart(p.barcode);
                 },
                 className: "item",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
