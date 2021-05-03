@@ -15,6 +15,11 @@ class CustomerController extends Controller
      */
     public function index()
     {
+        if (request()->wantsJson()){
+            return response(
+                Customer::all()
+            );
+        }
         $customer = Customer::latest()->paginate(10);
         return view('customers.index')->with('customers', $customer);
     }
