@@ -10,7 +10,9 @@ class Cart extends Component {
         super(props)
         this.state = {
             cart: [],
+            products: [],
             barcode: '',
+            search: '',
         };
 
         this.loadCart = this.loadCart.bind(this);
@@ -18,11 +20,24 @@ class Cart extends Component {
         this.handleScanBarcode = this.handleScanBarcode.bind(this);
         this.handleChangeQty = this.handleChangeQty.bind(this);
         this.handleEmptyCart = this.handleEmptyCart.bind(this);
+
+        this.loadProducts = this.loadProducts.bind(this);
+        this.handleChangeSearch = this.handleChangeSearch.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
     componentDidMount() {
         //load user cart
         this.loadCart();
+        this.loadProducts();
+    }
+
+    loadProducts(search = '') {
+        const query = !!search ? `?search=${search}` : '';
+        axios.get(`/admin/products${query}`).then(res => {
+            const products = res.data.data;
+            this.setState({ products });
+        })
     }
 
     handleOnChangeBarcode(event) {
@@ -93,9 +108,32 @@ class Cart extends Component {
         })
     }
 
+    handleChangeSearch(event) {
+        const search = event.target.value;
+        this.setState({ search })
+    }
+
+    handleSearch(event) {
+        if (event.keyCode === 13) {
+            this.loadProducts(event.target.value)
+        }
+    }
+
+    addProductToCart(barcode) {
+        axios.post('/admin/cart', { barcode }).then(res => {
+            this.loadCart();
+            this.setState({ barcode: '' })
+        }).catch(err => {
+            Swal.fire(
+                'Error!',
+                err.response.data.message,
+                'error'
+            )
+        })
+    }
 
     render() {
-        const { cart, barcode } = this.state;
+        const { cart, products, barcode } = this.state;
         return (
             <div className="row">
                 <div className="col-md-6 col-lg-4">
@@ -164,19 +202,20 @@ class Cart extends Component {
 
                 <div className="col-md-6 col-lg-8">
                     <div className="mb-2">
-                        <input type="text" className="form-control" placeholder="Search Product ..." />
+                        <input type="text"
+                            className="form-control"
+                            placeholder="Search Product ..."
+                            onChange={this.handleChangeSearch}
+                            onKeyDown={this.handleSearch} />
                     </div>
                     <div className="order-product">
-                        <div className="item"><img
-                            src="http://localhost:8000/storage/products/y4ISFBJS9yGkZmIJaWyUS8p9wVS6gr9gbpDZaJkU.jpg"
-                            alt="" />
-                            <h5>Amritha</h5>
-                        </div>
-                        <div className="item"><img
-                            src="http://localhost:8000/storage/products/y4ISFBJS9yGkZmIJaWyUS8p9wVS6gr9gbpDZaJkU.jpg"
-                            alt="" />
-                            <h5>Amritha</h5>
-                        </div>
+                        {products.map(p => (
+                            <div onClick={() => this.addProductToCart(p.barcode)} key={p.id} className="item"><img
+                                src={p.image_url}
+                                alt="" />
+                                <h5>{p.name}]</h5>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
