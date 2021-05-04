@@ -27,16 +27,16 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-        $settings = Setting::all('key', 'value')
-            ->keyBy('key')
-            ->transform(function ($setting) {
-                return $setting->value;
-            })
-            ->toArray();
+        // $settings = Setting::all('key', 'value')
+        //     ->keyBy('key')
+        //     ->transform(function ($setting) {
+        //         return $setting->value;
+        //     })
+        //     ->toArray();
 
-        config([
-            'settings' => $settings
-        ]);
+        // config([
+        //     'settings' => $settings
+        // ]);
 
         config(['app.name' => config('settings.app_name')]);
     }
