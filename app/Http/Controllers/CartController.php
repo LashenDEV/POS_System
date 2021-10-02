@@ -30,7 +30,7 @@ class CartController extends Controller
             $cart->pivot->quantity = $cart->pivot->quantity + 1;
             $cart->pivot->save();
         } else {
-            $product = Product::where('barcode', $barcode)->first();
+            $product = Product::whereBarcode($barcode)->first();
             $request->user()->cart()->attach($product->id, ['quantity' => 1]);
         }
 
