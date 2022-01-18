@@ -1,4 +1,4 @@
-s<?php
+<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,7 +14,7 @@ class CreateCustomersTable extends Migration
     public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->increaments('id');
+            $table->id();
             $table->string('first_name', 20);
             $table->string('last_name', 20);
             $table->string('email')->nullable();
