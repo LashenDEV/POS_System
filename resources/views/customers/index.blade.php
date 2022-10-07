@@ -10,9 +10,10 @@
     <link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}">
 @endsection
 
-@section('content')
+@section('content') 
     <div class="card">
         <div class="card-body">
+            @if(!$customers->isEmpty())
             <table class="table">
                 <thead>
                     <tr>
@@ -50,6 +51,9 @@
                 </tbody>
             </table>
             {{ $customers->render() }}
+            @else
+            <a href="{{ route('customers.create') }}">Add a customer</a>
+            @endif
         </div>
     </div>
 
