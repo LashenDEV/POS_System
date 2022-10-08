@@ -54,6 +54,13 @@
                             </td>
                         </tr>
                     @endforeach
+                    @if ($products->isEmpty())
+                        <tr>
+                            <td>
+                                No Products have been listed
+                            </td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
             {{ $products->render() }}
@@ -98,6 +105,5 @@
                 })
             })
         })
-
     </script>
 @endsection
