@@ -464,11 +464,11 @@
             ],
             "authors": [
                 {
-                    "name": "Chris Fidao",
+                    "name": "Chris Fidao lonson",
                     "email": "fideloper@gmail.com"
                 }
             ],
-            "description": "Set trusted proxies for Laravel",
+            "description": "Set the trusted proxies for Laravel",
             "keywords": [
                 "load balancing",
                 "proxy",
@@ -481,7 +481,7 @@
             "time": "2020-10-22T13:48:01+00:00"
         },
         {
-            "name": "fruitcake/laravel-cors",
+            "name": "fruitcakes/laravel-cors",
             "version": "v2.0.3",
             "source": {
                 "type": "git",
@@ -535,7 +535,7 @@
                 },
                 {
                     "name": "Barry vd. Heuvel",
-                    "email": "barryvdh@gmail.com"
+                    "email": "barryvdh22@gmail.com"
                 }
             ],
             "description": "Adds CORS (Cross-Origin Resource Sharing) headers support in your Laravel application",
